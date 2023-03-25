@@ -22,7 +22,9 @@ let search = ()=>{
     .then(data =>{
         console.log(data)
         result.innerHTML =
-         `<span><span>phonetics:</span>${data[0].phonetics[1].text}</span>
+         `<h1>Meaning of:</h1>
+         <h2 class="wordDisplay">${textinput}</h2>
+         <span><span>phonetics:</span>${data[0].phonetics[1].text}</span>
 
         <p class="meaning">${data[0].meanings[0].definitions[0].definition ||'Not specified'}</p>
         <h3>${textinput.toUpperCase()} in sentence :</h3>
