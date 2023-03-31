@@ -1,35 +1,20 @@
 const url = 'https://api.dictionaryapi.dev/api/v2/entries/en/'
 
-let wordDisplay = document.querySelector('.wordDisplay')
-let button = document.querySelector('button')
-let meaning = document.querySelector('.meaning')
-let example = document.querySelector('.example')
-let result = document.querySelector('.result')
-let sound = document.querySelector('.sound')
-// input event 
-document.querySelector('.inputText').addEventListener('input',(e)=>{
-    wordDisplay.textContent =e.target.value
-})
+function display(){
+   let word = document.querySelector('.input').value 
 
-// button event
+      word = document.querySelector('.display').innerText = word   
+
+   fetch(`${url} ${word}`)
+      .then(res => res.json())
+      .then(data =>{
+         document.querySelector('.sound').innerText= data[0].phonetics[0].text|| data[0].phonetics[1].text || "Not Available"
+         document.querySelector('#contentOne').innerText = data[0].meanings[0].definitions[0].definition
+         document.querySelector('#contentTwo').innerText = data[0].meanings[0].definitions[1].definition
+         document.querySelector('#contentThree').innerText = data[0].meanings[0].definitions[0].example ||data[0].meanings[0].definitions[1].example || "Not Available"
+         console.log(data)
+      })
+   }        
+document.querySelector('button').addEventListener('click',display)
 
 
-let search = ()=>{
-    let textinput = document.querySelector('.inputText').value
-    console.log(textinput)
-    fetch(`${url}${textinput}`)
-    .then(res => res.json())
-    .then(data =>{
-        console.log(data)
-        result.innerHTML =
-         `<h1>Meaning of:</h1>
-         <h2 class="wordDisplay">${textinput}</h2>
-         <span><span>phonetics:</span>${data[0].phonetics[1].text}</span>
-
-        <p class="meaning">${data[0].meanings[0].definitions[0].definition ||'Not specified'}</p>
-        <h3>${textinput.toUpperCase()} in sentence :</h3>
-        <p class="example">${data[0].meanings[0].definitions[0].example || 'Not specified'}</p>`;
-    })
-}
-
-button.addEventListener('click',search)
